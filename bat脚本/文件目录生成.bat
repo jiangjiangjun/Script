@@ -1,0 +1,1 @@
+tree /f /a >list.txt
