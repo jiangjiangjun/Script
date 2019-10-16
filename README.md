@@ -23,6 +23,15 @@
 |   |   |   桌面天气小部件.zip
 |   |   |   自动关机.exe
 |   |   |   
+|   |   +---sspacesniffer-v1.3.0.2
+|   |   |       Disclaimer.txt
+|   |   |       Release Notes.txt
+|   |   |       SpaceSniffer Quick Start.pdf
+|   |   |       SpaceSniffer User Manual.pdf
+|   |   |       SpaceSniffer.exe
+|   |   |       SpaceSniffer效果图.png
+|   |   |       说明.txt
+|   |   |       
 |   |   +---局域网扫描工具
 |   |   |       CPing.exe
 |   |   |       快速Ping扫描工具 QuickPing 0.8.exe
@@ -36,6 +45,7 @@
 |   |           注册码.txt
 |   |           
 |   +---调试工具
+|   |   |   modbuspoll.zip
 |   |   |   MODSCAN.zip
 |   |   |   
 |   |   +---MODBUS虚拟设备
@@ -66,6 +76,9 @@
 |   \---软件辅助工具
 |       |   keil注册机.zip
 |       |   
+|       +---Beyond_Compare注册机
+|       |       Beyond_Compare_Keygen_4.x.exe
+|       |       
 |       \---金手指
 |               Protel99seMEX.ini
 |               Protel99seMEX3.exe
