@@ -12,8 +12,8 @@
 |       
 +---工具软件
 |   +---小工具
-|   |   |   BeyondComparev4Crack.rar
 |   |   |   CRC计算器.exe
+|   |   |   CRC计算工具V3.3.0-64.zip
 |   |   |   float_hex.exe
 |   |   |   hex2ascii.exe
 |   |   |   IP地址修改器.exe
@@ -46,7 +46,9 @@
 |   |           
 |   +---调试工具
 |   |   |   modbuspoll.zip
+|   |   |   ModbusSlave.zip
 |   |   |   MODSCAN.zip
+|   |   |   虚拟串口.zip
 |   |   |   
 |   |   +---MODBUS虚拟设备
 |   |   |   |   MODBUS虚拟设备.zip
@@ -75,6 +77,29 @@
 |   |           
 |   \---软件辅助工具
 |       |   keil注册机.zip
+|       |   keygen(keil注册机可注册到2032).zip
+|       |   
+|       +---Beyond_Compare注册机
+|       |       BeyondComparev4Crack.zip
+|       |       Beyond_Compare_Keygen_4.x.exe
+|       |       
+|       \---金手指
+|               Protel99seMEX.ini
+|               Protel99seMEX3.exe
+|               
++---油猴脚本
+|   +---开源电子网
+|   |       OpenEdv.js
+|   |       开源电子网(openedv.com).png
+|   |       
+|   \---远景论坛
+|           远景论坛(bbs.pcbeta.com).png
+|           远景论坛.js
+|           
+\---浏览器插件
+        google-访问插件.zip
+        VIP在线看.crx
+        
 |       |   
 |       +---Beyond_Compare注册机
 |       |       Beyond_Compare_Keygen_4.x.exe
