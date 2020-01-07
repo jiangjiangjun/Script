@@ -24,6 +24,7 @@
 |   |   |   异或计算.exe    
 |   |   |   桌面天气小部件.zip    
 |   |   |   自动关机.exe    
+|   |   |   鼠标连点器.exe    
 |   |   |       
 |   |   +---sspacesniffer-v1.3.0.2    
 |   |   |       Disclaimer.txt    
