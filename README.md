@@ -50,6 +50,7 @@
 |   +---调试工具    
 |   |   |   modbuspoll.zip    
 |   |   |   ModbusSlave.zip    
+|   |   |   ModbusSlave7.0和ModbusPoll 7.2.3软件32和64位版及注册码.zip    
 |   |   |   MODSCAN.zip    
 |   |   |   虚拟串口.zip    
 |   |   |       
@@ -81,6 +82,7 @@
 |   \---软件辅助工具    
 |       |   keil注册机.zip    
 |       |   keygen(keil注册机可注册到2032).zip    
+|       |   WPS 2019 永久激活工具.exe    
 |       |       
 |       +---Beyond_Compare注册机    
 |       |       BeyondComparev4Crack.zip    
@@ -100,5 +102,21 @@
 |           远景论坛.js    
 |               
 \---浏览器插件    
+        github侧边栏.zip    
         google-访问插件.zip    
-        VIP在线看.crx    
+        iGG谷歌访问助手.zip    
+        JSON格式化.zip    
+        WEB前端助手(FeHelper)_v10.6.zip    
+        Youtube双语字幕.zip    
+        下载管理.zip    
+        图片放大.zip    
+        密码管理器.zip    
+        广告终结者.zip    
+        扩展管理器.zip    
+        猫抓.zip    
+        百度文库复制.zip    
+        网盘助手.zip    
+        请求拦截.zip    
+        集装箱.zip    
+        飞翔VIP.crx    
+ECHO 处于关闭状态。
