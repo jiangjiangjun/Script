@@ -1,5 +1,9 @@
 # Script
-分享一些自己写的或者搜集的脚本工具！
+分享一些自己写的或者搜集的脚本和软件工具！同时欢迎大家分享你的软件！
+如果哪个软件侵权或者有毒请告知我删除。所有资源均来自互联网，未能一一核实检查。
+如果使用中造成不良后果，本人概不负责，请自己斟酌使用。
+
+
 
 |   list.txt    
 |   README.md    
@@ -15,23 +19,24 @@
 |   |   |   360宽带测速器独立版.exe    
 |   |   |   CRC计算器.exe    
 |   |   |   CRC计算工具V3.3.0-64.zip    
+|   |   |   Dism.zip    
 |   |   |   float_hex.exe    
 |   |   |   hex2ascii.exe    
+|   |   |   IObit Unlocker(文件解锁).exe    
 |   |   |   IP地址修改器.exe    
 |   |   |   Modbus CRC.exe    
 |   |   |   NetTool2.5.zip    
 |   |   |   PID仿真软件.zip    
 |   |   |   QuickPing_v0.80.exe    
-|   |   |   TUPortable.zip    
-|   |   |   Uninstall_Tool.zip    
 |   |   |   免费代码对比工具.zip    
 |   |   |   免费的远程软件.zip    
-|   |   |   全局手势.7z    
+|   |   |   全局手势.zip    
 |   |   |   小马激活工具.exe    
 |   |   |   异或计算.exe    
 |   |   |   弹窗路径检测.exe    
 |   |   |   文件校验工具.exe    
 |   |   |   桌面天气小部件.zip    
+|   |   |   疫情数据查询-1.0.4.exe    
 |   |   |   自动关机.exe    
 |   |   |   蓝屏分析工具.zip    
 |   |   |   部分软件以官网链接形式提供.txt    
@@ -53,15 +58,41 @@
 |   |   |       秒Ping工具1.3.zip    
 |   |   |       群Ping.exe    
 |   |   |           
-|   |   \---抠图    
-|   |           PhotoScissors-5.0-32.exe    
-|   |           PhotoScissors-5.0-64.exe    
-|   |           注册码.txt    
+|   |   +---抠图    
+|   |   |       PhotoScissors-5.0-32.exe    
+|   |   |       PhotoScissors-5.0-64.exe    
+|   |   |       注册码.txt    
+|   |   |           
+|   |   \---软件卸载    
+|   |           IObit Uninstaller PRO 11.5.0.4.zip    
+|   |           TUPortable.zip    
+|   |           UninstallTool-3.6.1.5687.7z    
+|   |           Uninstall_Tool.zip    
 |   |               
 |   +---调试工具    
 |   |   |   虚拟串口.zip    
 |   |   |   部分软件给出官网地址自行下载.txt    
 |   |   |       
+|   |   +---bacent    
+|   |   |   +---BACnet MSTP 监听软件    
+|   |   |   |       BACnet MSTP 监听软件.exe    
+|   |   |   |           
+|   |   |   \---BACnetScan    
+|   |   |       |   BACnetEthClient.dll    
+|   |   |       |   BACnetIPClient.dll    
+|   |   |       |   BACnetMSTPMaster.dll    
+|   |   |       |   BACnetScan.exe    
+|   |   |       |       
+|   |   |       +---Help    
+|   |   |       |       BACnetScan-Ch.pdf    
+|   |   |       |       BACnetScan-En.pdf    
+|   |   |       |       BACnetScan使用手册.pdf    
+|   |   |       |       ReleaseNote-Ch.pdf    
+|   |   |       |       ReleaseNote-En.pdf    
+|   |   |       |           
+|   |   |       \---Lang    
+|   |   |               ZH_CN.dll    
+|   |   |                   
 |   |   +---Modbus工具    
 |   |   |   |   modbuspoll.zip    
 |   |   |   |   ModbusPoll_v9.9.2_Chs.exe    
@@ -84,8 +115,12 @@
 |   |   |               
 |   |   +---串口调试    
 |   |   |       amaoComV4.9.exe    
+|   |   |       bittly-setup-0.11.6-win-amd64.exe    
 |   |   |       comtool(截至2022.10.22最新版本，可自行更新).zip    
+|   |   |       putty-64bit-0.77-installer.msi    
+|   |   |       qtswissarmyknife-v3.5.0-for-windows-x86.zip    
 |   |   |       UartAssist.exe    
+|   |   |       vofa+_1.3.10_x64_installer.exe    
 |   |   |       XCOM V2.6.exe    
 |   |   |       串口设备调试工具.exe    
 |   |   |           
@@ -98,8 +133,16 @@
 |   |           VOFA+.gif    
 |   |           瑞士军刀.png    
 |   |               
+|   +---资源搜索    
+|   |       AnyTXT.Searcher.zip    
+|   |       Everything.exe    
+|   |       磁力搜索.zip    
+|   |       部分软件网址.txt    
+|   |           
 |   \---软件辅助工具    
 |       |   AD22_破解文件.zip    
+|       |   Footprint Expert 2022.10 Pro.zip    
+|       |   KeilPackDownloader.exe    
 |       |   keygen(keil注册机可注册到2032).zip    
 |       |   WPS 2019 永久激活工具.exe    
 |       |       
@@ -107,6 +150,15 @@
 |       |       BeyondComparev4Crack.zip    
 |       |       Beyond_Compare_Keygen_4.x.exe    
 |       |           
+|       +---window激活    
+|       |   |   HEU_KMS_Activator_v26.1.0_Password_HEU168.zip    
+|       |   |   Win10数字权利激活_2020-03-15.zip    
+|       |   |   小马激活工具.exe    
+|       |   |       
+|       |   \---KMS_VL_ALL_AIO-41r_ZH-CN    
+|       |           KMS_VL_ALL_AIO.cmd    
+|       |           ReadMeAIO.html    
+|       |               
 |       +---电子工程类小工具合集    
 |       |   |   lc谐振频率计算.exe    
 |       |   |   RF_Filter.exe    

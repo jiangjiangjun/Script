@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>KMS_VL_ALL_AIO</title>
+    <style>
+        #nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 220px;
+            overflow: auto;
+        }
+
+        main {
+            position: fixed;
+            top: 0;
+            left: 220px;
+            right: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+
+        .innertube {
+            margin: 15px;
+        }
+
+        * html main {
+            height: 100%;
+            width: 100%;
+        }
+
+        td, h1, h2, h3, h4, h5, p, ul, ol, li {
+            page-break-inside: avoid; 
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+        <div class="innertube">
+
+            <h1 id="Overview">KMS_VL_ALL_AIO - 智能激活脚本</h1>
+    <ul>
+      <li>这是一个批处理脚本，用于使用本地 KMS 服务器模拟器或外部服务器自动激活受支持的 Windows 和 Office 产品。</li>
+    </ul>
+    <ul>
+      <li>它被设计为无人值守并且足够智能，不覆盖产品的永久激活（Windows 或 Office），<br />
+      只有未激活的产品才会被 KMS 激活（如果支持）。</li>
+    </ul>
+    <ul>
+      <li>此解决方案的旗舰功能是当安装后，它将提供 24/7 激活，而无需用户交互，无论系统本身何时请求（包括更新、重新激活、硬件更改、版本升级、新装 Office 等……）。</li>
+    </ul>
+    <ul>
+      <li>某些安全程序会将 KMS 模拟的文件报告为受感染文件（请参阅末尾附近的源代码），<br />
+      这属于误报，只要你是从受信任的主页下载文件即可。</li>
+    </ul>
+    <ul>
+      <li>主页：<br />
+      <a href="https://forums.mydigitallife.net/posts/838808/" target="_blank">https://forums.mydigitallife.net/posts/838808/</a><br />
+      备用链接：<br />
+      <a href="https://github.com/abbodi1406/KMS_VL_ALL_AIO" target="_blank">https://github.com/abbodi1406/KMS_VL_ALL_AIO</a><br />
+      <a href="https://pastebin.com/cpdmr6HZ" target="_blank">https://pastebin.com/cpdmr6HZ</a><br />
+      <a href="https://textuploader.com/1dav8" target="_blank">https://textuploader.com/1dav8</a></li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="AIO">多合一 vs. 传统版</h2>
+    <p>与传统的 KMS_VL_ALL 相比，KMS_VL_ALL_AIO 分支具有以下差异和其他功能：</p>
+    <ul>
+      <li>便携式多合一脚本，更易于单独移动和分发。</li>
+    </ul>
+    <ul>
+      <li>所有选项和配置均可通过易于使用的菜单访问。</li>
+    </ul>
+    <ul>
+      <li>结合传统版脚本的所有功能（激活、自动更新设置、检查激活状态、设置完成）。</li>
+    </ul>
+    <ul>
+      <li>使用 AveYo 的 ascii 编码器将所需的二进制文件嵌入脚本（包括脚本 ReadMeAIO.html 本身）中。</li>
+    </ul>
+    <ul>
+      <li>可后续通过 Windows PowerShell 按需提取（解码）所需的文件。</li>
+    </ul>
+    <ul>
+      <li>一些菜单选项的简单文本着色（以便于区分）。</li>
+    </ul>
+    <ul>
+      <li>自动管理员提升请求。</li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="How">它如何运行？</h2>
+    <ul>
+      <li>密钥管理服务（KMS）是 Microsoft 为批量许可客户（包括组织、学校或政府）提供的正版激活方法。<br />
+      这些环境中的计算机（被称为 KMS 客户端）通过环境 KMS 主机服务器（授权的 Microsoft 许可密钥）而不是通过 Microsoft 激活服务器激活。
+      <div>有关更多信息，请参阅 <a href="https://www.microsoft.com/Licensing/servicecenter/Help/FAQDetails.aspx?id=201#215">此处</a>和<a href="https://technet.microsoft.com/en-us/library/ee939272(v=ws.10).aspx#kms-overview">此处</a>。</div></li>
+    </ul>
+    <ul>
+      <li>根据设计，KMS 激活期最长可达 <strong>180 天</strong>（6 个月），可随时更新和恢复期限。<br />
+      通过适当的自动更新配置，它将会是一个持续的激活（基本上是永久性的）。</li>
+    </ul>
+    <ul>
+      <li>KMS 模拟器（服务器和客户端）是基于反向工程 KMS 协议的复杂工具。<br />
+      它可模仿 KMS 服务器/客户端的通信，并为受支持的 KMS 客户端提供干净的激活，而不会改变或破坏任何系统文件的完整性。</li>
+    </ul>
+    <ul>
+      <li>Windows 或 Office 的更新并不会影响或阻止 KMS 激活，只有当新的 KMS 协议和本地仿真器一起使用时才会不工作。<br />
+    </ul>
+    <ul>
+      <li><strong>SppExtComObjPatcher</strong> 的机制使得其可充当请求就绪的 KMS 服务器，提供即时激活，无需外部计划任务或手动干预。<br />
+      包括自动续订、自动激活批量版本的 Office、因硬件更改、日期更改、Windows 或 Office 版本更改而重新激活……等。
+      <div>在 Windows 7 上，以后安装的 Office 可能需要 OSPP.vbs 或脚本，或者打开 Office 程序启动首次激活。</div></li>
+    </ul>
+    <ul>
+      <li>此功能利用“映像文件执行选项”技术进行工作，程序类似于用于负责 KMS 进程的系统文件的 Application Verifier 自定义提供程序。<br />
+      因此，操作系统本身处理 DLL 注入，允许钩住拦截的 KMS 激活请求并动态写入响应。
+      <div>在 Windows 8.1/10 上，它还处理 KMS 激活的本机限制，并重定向任何本地/私有 IP 地址，因为它是外部的（不同的堆栈）。</div></li>
+    </ul>
+    <ul>
+      <li>激活脚本包含 Windows Management Instrumentation Command <strong>WMIC</strong> 实用程序的高级检查和命令，用于查询和执行 Windows 和 Office 许可类的方法，<br />
+      提供本机激活处理，几乎与官方 VBScript 工具 slmgr.vbs 和 ospp.vbs 相同，但却是以自动方式。</li>
+    </ul>
+    <ul>
+      <li>脚本只访问系统中的 3 个部分（如果使用模拟器）：<br />
+      复制或链接文件到 <code>"C:\Windows\System32\SppExtComObjHook.dll"</code><br />
+      添加 hook 注册表项到 <code>"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"</code><br />
+      添加 osppsvc.exe 密钥到 <code>"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\OfficeSoftware专业版tectionPlatform"</code></li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="Supported">支持的产品</h2>
+    <p>可批量：</p>
+    <ul>
+      <li>Windows 10：<br />
+      企业版、企业版 LTSC/LTSB、企业版 G、企业版多会话、教育版、专业版、专业工作站版、专业教育版、家庭版、家庭单语言版、家庭中文版</li><br />
+      <li>Windows 8.1：<br />
+      企业版、专业版、专业版（含 Media Center）、Core、Core Single Language、Core China、Pro for Students、Bing、Bing Single Language、Bing China、Embedded Industry Enterprise/Pro/Automotive</li><br />
+      <li>Windows 8：<br />
+      企业版、专业版、专业版（含 Media Center）、Core、Core Single Language、Core China、Embedded Industry Enterprise/Pro</li><br />
+      <li>Windows 8/8.1/10 <strong>N 版</strong>变体（如：专业版 N）同样支持</li><br />
+      <li>Windows 7：<br />
+      Enterprise /N/E、Professional /N/E、Embedded Standard/POSReady/ThinPC</li><br />
+      <li>Windows Server 2019/2016：<br />
+      LTSC 版本（Standard、Datacenter、Essentials、Cloud Storage、Azure Core、Azure Datacenter、Server ARM64）、半年通道版本（Standard ACor、Datacenter ACor）</li><br />
+      <li>Windows Server 2012 R2：<br />
+      Standard、Datacenter、Essentials、Cloud Storage</li><br />
+      <li>Windows Server 2012：<br />
+      Standard、Datacenter、MultiPoint Standard、MultiPoint Premium</li><br />
+      <li>Windows Server 2008 R2：<br />
+      Standard、Datacenter、Enterprise、MultiPoint、Web、HPC Cluster</li><br />
+      <li>Office 批量版本 2010 / 2013 / 2016 / 2019 / 2021</li>
+    </ul>
+    <p>______________________________</p>
+    <p>以下这些版本通过 KMS 激活最多仅 <em>45</em> 天：</p>
+    <ul>
+      <li>Windows 10 家庭版变种</li>
+      <li>Windows 8.1 Core 变种、专业版（含 Media Center）、Pro Student</li>
+    </ul>
+    <p>以下这些版本通过 KMS 激活最多仅 <em>30</em> 天：</p>
+    <ul>
+      <li>Windows 8 Core 变种、专业版（含 Media Center）</li>
+    </ul>
+    <p>注：</p>
+    <ul>
+      <li>受支持的 Windows 产品不需要批量转换，只需要 GVLK（KMS 密钥），脚本将会相应地安装。</li>
+      <li>在 Windows 7 上的 KMS 激活存在与 SLIC 2.1 和 Windows 标记相关的限制。有关更多信息，请参阅 <a href="https://support.microsoft.com/en-us/help/942962">此处</a>和<a href="https://technet.microsoft.com/en-us/library/ff793426(v=ws.10).aspx#activation-of-windows-oem-computers">此处</a>。</li>
+    </ul>
+    <p>______________________________</p>
+            <h3>不支持的产品</h3>
+    <ul>
+      <li>Office Retail</li>
+      <li>Office UWP（Windows 10 应用）</li>
+      <li>按照设计不支持激活 KMS 的 Windows 版本：<br />
+      Windows 评估版本<br />
+      Windows 7（Starter、HomeBasic、HomePremium、Ultimate）<br />
+      Windows 10（Cloud“S”、IoTEnterprise、IoTEnterpriseS、ProfessionalSingleLanguage……等）<br />
+      Windows Server（Server Foundation、Storage Server、Home Server 2011……等）</li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="OfficeR2V">Office 零售版本转批量版本</h2>
+    <p>在使用 KMS 激活 Office 零售版本之前，必须首先将 Office 零售版本转换为批量版本</p>
+    <p>特别是，不区分从 ISO（如 ProPlus2019Retail.img）安装还是使用 Office 部署工具安装的 Office Click-to-Run 产品。</p>
+    <p><b>从版本 36 开始，激活脚本实现了 Office C2R 的自动许可证转换。</b></p>
+    <p>注：</p>
+    <ul>
+      <li>支持即点即用产品：Office 365（Microsoft 365 Apps）、Office 2021 / 2019 / 2016、Office 2013</li>
+      <li>已激活的 Office 零售产品将从转换过程中跳过。</li>
+      <li>Office 365 本身没有批量许可证，因此将转换为 Office Mondo 许可证。</li>
+      <li>Office 专业版套件将使用 Office 专业增强版许可证进行转换。</li>
+      <li>Office 家庭企业版/家庭和学生版套件将使用 Office 标准许可证转换。</li>
+      <li>Office 2016 产品将转换为相应的 Office 2019 许可证。</li>
+      <li>如果没有检测到 Office 2019 RTM 许可证，将使用 Office 2016 许可证代替</li>
+    </ul>
+    <p>或者，如果自动转换不起作用，或者你更喜欢使用单独的转换器脚本，则可使用：<br />
+    <a href="https://forums.mydigitallife.net/posts/1150042/" target="_blank">Office-C2R-Retail2Volume</a></p>
+    <p>你可以使用其他可以转换许可的工具：</p>
+    <ul>
+      <li><a href="https://forums.mydigitallife.net/posts/1125229/" target="_blank">OfficeRTool</a>（支持转换并激活 Office UWP）</li>
+      <li><a href="https://forums.mydigitallife.net/threads/78950/" target="_blank">Office Tool Plus</a></li>
+    </ul>
+            <hr />
+            <br />
+
+            <h1 id="Using">使用方式</h1>
+    <ul>
+      <li>某些功能需要内置 Windows PowerShell，请确保未将其禁用或从系统中删除。</li>
+    </ul>
+    <ul>
+      <li>移除任何其他的 KMS 解决方案。</li>
+    </ul>
+    <ul>
+      <li>临时暂停防病毒实时防护，或从扫描中排除已下载的文件和解压缩的文件夹，以避免被隔离。</li>
+    </ul>
+    <ul>
+      <li>如果你在 Windows 10 或 8.1 上使用 <strong>Windows Defender</strong>，此脚本会自动为 <code>C:\Windows\System32\SppExtComObjHook.dll</code>添加一个排除项</br>
+      因此，<u>最好不要禁用 Windows Defender</u>，而是在运行脚本之前排除下载的文件和提取的文件夹。</li>
+    </ul>
+    <ul>
+      <li>将所下载的文件内容解压到一个没有特殊字符或长空格的简单路径中。</li>
+    </ul>
+    <ul>
+      <li>运行此激活脚本，需要管理员权限。</li>
+    </ul>
+    <ul>
+      <li>KMS_VL_ALL 提供 3 种激活模式。</li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="Modes">激活模式</h2>
+            <br />
+            <h3 id="ModesAut">自动续期</h3>
+    <p>推荐模式，你只需安装一次激活模拟器。 之后，系统本身将按计划处理并续订激活。</p>
+    <p>若要运行此模式：</p>
+    <ul>
+      <li>在菜单中，按 <b>2</b> 以<strong>安装激活自动续订</strong></li>
+    </ul>
+    <p>如果你正在使用防病毒软件，最好从扫描保护中排除此文件：<br /><code>C:\Windows\System32\SppExtComObjHook.dll</code></p>
+    <p>如果以后安装了批量版本的 Office 产品，它将在此模式下自动激活。</p>
+    <p>此外，如果要转换和激活 Office C2R，请续订激活或激活新产品：</p>
+    <ul>
+      <li>在菜单中，按 <b>1</b> <strong>激活[自动更新模式]</strong></li>
+    </ul>
+    <p>在 Windows 8 和更高版本上，脚本会将内建系统计划任务 <code>SvcRestartTaskLogon</code> <em>复制到</em> <code>SvcTrigger</code></br>
+    这只是一个预防措施，可确保评估并遵循“自动续期”期限，它与激活本身没有直接关系，你可以手动将其删除。</p>
+    <p>若要移除此模式：</p>
+    <ul>
+      <li>在菜单中，按 <b>3</b> 以<strong>完全卸载</strong></li>
+    </ul>
+            <p>____________________________________________________________</p>
+            <br />
+
+            <h3 id="ModesMan">手动</h3>
+    <p>无残留模式，你只需要运行脚本 <strong>Activate.cmd</strong>，而不会在系统中留下任何 KMS 模拟器的跟踪痕迹。</p>
+    <p>若要运行此模式：</p>
+    <ul>
+      <li>确保未安装自动续订解决方案，或已将其删除</li>
+      <li>在菜单中，按 <b>1</b> <strong>激活[手动模式]</strong></li>
+    </ul>
+    <p>如果新安装了产品（例如 Office），或者是 Windows 版本已切换，你必须再次运行脚本 <strong>Activate.cmd</strong> 才能激活。</p>
+    <p>在 KMS 激活期限到期之前，你将必须再次运行脚本以进行激活。</p>
+    <p>你可以在此时间段内随时运行脚本并激活，以将时间段更新为最大间隔。</p>
+    <p>如果脚本在完成该过程之前意外终止，请再次运行该脚本，然后：</p>
+    <ul>
+      <li>在菜单中，按 <b>3</b> 以<strong>完全卸载</strong></li>
+    </ul>
+            <p>____________________________________________________________</p>
+            <br />
+
+            <h3 id="ModesExt">外部</h3>
+    <p>独立模式，你可以在不使用本地 KMS 模拟器的情况下针对受信任的外部 KMS 服务器进行激活。</p>
+    <p>外部服务器既可以是网址，也可以是网络 IP 地址（本地 LAN 或虚拟机）。</p>
+    <p>若要运行此模式：</p>
+    <ul>
+      <li>在菜单中，按字母 <b>E</b> <strong>激活[外部模式]</strong></li>
+      <li>输入或粘贴服务器地址，然后按 Enter 键</li>
+    </ul>
+    <p>如果你以后安装了批量版 Office 产品，那么它将被自动激活（如果仍然连接外部服务器）。</p>
+    <p>所使用的服务器地址将会保留在系统中，以允许已激活的产品通过该地址自动续订，<br />
+    如果服务器不再可用，则需要使用新的可用服务器再次运行脚本模式。</p>
+    <p>如果要清除服务器注册和跟踪：</p>
+    <ul>
+      <li>在菜单中，按 <b>3</b> <strong>完全卸载</strong>（这也会清除 KMS 缓存）</li>
+    </ul>
+            <hr />
+            <br />
+
+            <h2 id="OptConf">附加选项</h2>
+            <br />
+            <h3 id="ConfDbg">启用调试模式</h3>
+    <p>默认情况下，调试模式为 OFF。</p>
+    <p>此选项仅与激活功能一起使用（菜单选项 [1]、[2]、[3]、[E]）。</p>
+    <p>如果你需要启用此功能以进行故障排除或检测任何激活错误：</p>
+    <ul>
+      <li>在菜单中，按 <b>4</b> 将状态更改为<strong>启用调试模式</strong>  <b>[是]</b></li>
+      <li>然后，运行所需的激活选项。</li>
+    </ul>
+    <p>______________________________</p>
+
+            <h3 id="ConfAct">处理 Windows / 处理 Office</h3>
+    <p>默认情况下，此脚本设置为处理并尝试激活 Windows 和 Office。</p>
+    <p>但是，如果出于任何原因要关闭对 Windows <b>或</b> Office 的处理，请执行以下操作：</p>
+    <ul>
+      <li>你担心它可能会覆盖永久激活</li>
+      <li>你想要加快操作速度（你已经永久激活了 Windows 或 Office）</li>
+      <li>你希望以后根据条款激活 Windows 或 Office</li>
+    </ul>
+    <p>若要做到这一点：</p>
+    <ul>
+      <li>在菜单中，按 <b>5</b> 将状态更改为<strong>处理 Windows</strong> <b>[否]</b></li>
+      <li>在菜单中，按 <b>6</b> 将状态更改为<strong>处理 Office</strong> <b>[否]</b></li>
+    </ul>
+    <p>注：<br />
+    如果 Windows 或 Office 的安装已经是批量版本（已安装 GVLK），则关闭选项将不会很有效，<br />
+    这是因为系统本身可能会尝试触发并通过 KMS 激活产品，特别是在 Windows 8 及更高版本上。</p>
+    <p>______________________________</p>
+
+            <h3 id="ConfC2R">转换 Office C2R-R2V</h3>
+    <p>默认情况下，此脚本设置为将检测到的 Office C2R 零售版本自动转换为批量版本（已激活的零售版本产品除外）。</p>
+    <p>但是，如果你希望关闭此功能，请执行以下操作：</p>
+    <ul>
+      <li>在菜单中，按 <b>7</b> 将状态更改为<strong>转换 Office C2R-R2V</strong> <b>[否]</b></li>
+    </ul>
+    <p>______________________________</p>
+
+            <h3 id="ConfW10">跳过 Windows 10 KMS 2038</h3>
+    <p>如果检测到 KMS 2038，则默认情况下将脚本设置为检查并跳过 Windows 10 激活。</p>
+    <p>但是，如果你想要恢复正常的 KMS 激活：</p>
+    <ul>
+      <li>在菜单中，按字母 <b>X</b> 将状态更改为<strong>跳过 Windows 10 KMS38</strong> <b>[否]</b></li>
+    </ul>
+    <p>注：<br />
+    在 Windows 10 上，如果 <code>SkipKMS38</code> 处于打开状态（默认），即使<code>处理 Windows</code>为否，也将始终检查并处理 Windows。</p>
+            <hr />
+            <br />
+
+            <h2 id="OptMisc">其他设置选项</h2>
+            <br />
+            <h3 id="MiscChk">检查激活状态</h3>
+    <p>你可以使用这些选项来检查 Windows 和 Office 产品的状态。</p>
+    <p><strong>检查激活状态 [vbs]</strong>：</p>
+    <ul>
+      <li>查询和执行官方许可的 VBScript：Windows 的 slmgr.vbs、Office 的 ospp.vbs</li>
+      <li>它会显示 Windows 的激活到期日期</li>
+      <li>Office 2010 ospp.vbs 显示的信息很少</li>
+    </ul>
+    <p><strong>检查激活状态 [wmic]</strong>：</p>
+    <ul>
+      <li>查询和执行本机 WMI 功能，不涉及任何脚本</li>
+      <li>它显示了更多信息（SKU ID，密钥通道）</li>
+      <li>它显示所有产品的激活到期日期</li>
+      <li>它显示了 Office 2010 的更多详细信息</li>
+      <li>它可以显示 Office UWP 应用的状态</li>
+    </ul>
+    <p>______________________________</p>
+
+            <h3 id="MiscOEM">创建 $OEM$ 文件夹</h3>
+    <p>创建所需的文件夹结构和脚本，以在 Windows 安装期间使用从而预激活系统。</p>
+    <p>然后，将 <code>$oem$</code> 文件夹复制到安装介质（ISO / USB）中的 <code>sources</code> 文件夹中。</p>
+    <p>如果你已经使用了另一个 <strong>setupcomplete.cmd</strong>，请复制此命令行并将其正确粘贴到 setupcomplete.cmd 中<br />
+    <code>call %~dp0KMS_VL_ALL_AIO.cmd /s /a</code></p>
+    <p>注：</p>
+    <ul>
+      <li>默认情况下，所创建的 <strong>setupcomplete.cmd</strong> 设置为在<em>自动续订</em>模式下运行 <strong>KMS_VL_ALL_AIO.cmd</strong>。</li>
+      <li>你可以将命令行开关更改为其他模式，也可以添加任何配置开关。</li>
+      <li>以后，如果要卸载项目，请使用菜单选项<strong>[3] 完全卸载</strong>。</li>
+      <li>在 Windows 8 和更高版本上，如果该版本的默认安装密钥为 OEM 通道，将禁止运行 setupcomplete.cmd。</li>
+    </ul>
+    <p>______________________________</p>
+
+            <h3 id="MiscRed">自述文件</h3>
+    <p>解压并打开此 ReadMeAIO.html。</p>
+            <hr />
+            <br />
+
+            <h2 id="OptKMS">高级 KMS 选项</h2>
+    <p>你可以在运行之前通过使用记事本编辑脚本来手动修改这些与 KMS 相关的选项。</p>
+    <ul>
+      <li>
+        <strong>KMS_RenewalInterval</strong>
+        <br />
+        设置 KMS 自动续订计划的间隔（默认为 10080 = 每周）<br />
+        这只会对自动续订或外部模式产生很大影响<br />
+        允许值（以分钟为单位）：从 15 到 43200</li>
+    </ul>
+    <ul>
+      <li>
+        <strong>KMS_ActivationInterval</strong>
+        <br />
+        设置失败激活更新 KMS 重新尝试计划的时间间隔，或未激活的产品以尝试激活<br />
+        这不会影响整个 KMS 期间（180 天）或续订计划<br />
+        允许值（以分钟为单位）：从 15 到 43200</li>
+    </ul>
+    <ul>
+      <li>
+        <strong>KMS_HWID</strong>
+        <br />
+        为本地 KMS 模拟服务器设置硬件哈希值（仅影响 Windows 8.1/10）<br />
+        需要 <b>0x</b> 前缀</li>
+    </ul>
+    <ul>
+      <li>
+        <strong>KMS_Port</strong>
+        <br />
+        设置用于 KMS 通信的 TCP 端口</li>
+    </ul>
+    <p>提示：<br />
+    高级用户还可以编辑脚本并更改配置选项或激活模式的默认状态。
+    但是，命令行开关优先于内部选项。</p>
+            <hr />
+            <br />
+
+            <h2 id="Switch">命令行开关</h2>
+    <p>
+      <strong>激活开关：</strong>
+    </p>
+    <ul>
+      <li>自动续期模式：<br /><code>/a</code></li>
+    </ul>
+    <ul>
+      <li>手动模式：<br /><code>/m</code></li>
+    </ul>
+    <ul>
+      <li>外部模式：<br /><code>/e pseudo.kms.server</code></li>
+    </ul>
+    <ul>
+      <li>卸载并移除所有：<br /><code>/r</code></li>
+    </ul>
+    <p>
+      <strong>配置开关：</strong>
+    </p>
+    <ul>
+      <li>静默运行：<br /><code>/s</code></li>
+    </ul>
+    <ul>
+      <li>静默运行并创建简单的日志：<br /><code>/s /L</code></li>
+    </ul>
+    <ul>
+      <li>调试模式运行：<br /><code>/d</code></li>
+    </ul>
+    <ul>
+      <li>静默调试模式：<br /><code>/s /d</code></li>
+    </ul>
+    <ul>
+      <li>仅处理 Windows：<br /><code>/w</code></li>
+    </ul>
+    <ul>
+      <li>仅处理 Office：<br /><code>/o</code></li>
+    </ul>
+    <ul>
+      <li>关闭 Office C2R-R2V 转换：<br /><code>/c</code></li>
+    </ul>
+    <ul>
+      <li>不要跳过 Windows 10 KMS38：<br /><code>/x</code></li>
+    </ul>
+    <p>
+      <strong>说明：</strong>
+    </p>
+    <ul>
+      <li>所有开关均不区分大小写，可以按任何顺序工作，但必须用空格分隔。</li>
+    </ul>
+    <ul>
+      <li>你可以同时指定多个开关。</li>
+    </ul>
+    <ul>
+      <li>如果指定的外部模式开关 <code>/e</code> 没有服务器地址，它将更改为“手动”或“自动”（取决于 SppExtComObjHook.dll 的存在）。</li>
+    </ul>
+    <ul>
+      <li>如果同时指定了多个激活开关 <code>/a /m /e</code>，则最后一个优先。</li>
+    </ul>
+    <ul>
+      <li>卸载开关 <code>/r</code> 始终优先于激活开关</li></li>
+    </ul>
+    <ul>
+      <li>如果指定了这些配置开关 <code>/w /o /c /x</code> 而没有其他开关，则它们只会更改菜单中的相应状态。</li>
+    </ul>
+    <ul>
+      <li>如果同时指定了处理 Windows / Office 开关 <code>/o /w</code>，则最后一个优先。</li>
+    </ul>
+    <ul>
+      <li>日志开关 <code>/L</code> 仅适用于静默开关 <code>/s</code></li>
+    </ul>
+    <ul>
+      <li>如果指定了静默开关 <code>/s</code> 和/或调试开关 <code>/d</code>，而没有激活开关，则脚本将仅在“手动”或“自动续订”模式下运行激活（取决于 SppExtComObjHook.dll 的存在）。</li>
+    </ul>
+    <p>
+      <strong>示例：</strong>
+    </p>
+    <pre>
+<code>
+静默外部激活：
+KMS_VL_ALL_AIO.cmd /s /e pseudo.kms.server
+
+仅适用于 Windows 的自动续订激活：
+KMS_VL_ALL_AIO.cmd /o /w /a
+
+在静默调试模式下手动激活，不跳过 W10 KMS38：
+KMS_VL_ALL_AIO.cmd /m /x /d /s
+
+更改菜单中的配置选项（仅限处理 Office），不转换 C2R-R2V：
+KMS_VL_ALL_AIO.cmd /o /c
+
+静默激活（如果已安装，则为自动续订模式，否则为手动模式）：
+KMS_VL_ALL_AIO.cmd /s
+</code>
+    </pre>
+    <p>
+      <strong>备注：</strong>
+    </p>
+    <ul>
+      <li>通常，Windows 批处理脚本不适用于异常的文件夹路径和文件名，这些文件夹路径和文件名包含非 ASCII 和 Unicode 字符，长路径和空格或某些特殊字符 <code>`` ~ ; ' , ! @ % ^ &amp; ( ) [ ] { } + =</code></li>
+    </ul>
+    <ul>
+      <li>编码 KMS_VL_ALL_AIO 脚本以尽可能正确地处理这些限制。</li>
+    </ul>
+    <ul>
+      <li>如果更改了脚本文件名并添加了一些不寻常的字符或空格，请确保在从命令行提示符或其他脚本运行脚本时将脚本名（或完整路径）括在“”中。</li>
+    </ul>
+    <ul>
+      <li>默认情况下，即使资源管理器上下文菜单选项“以管理员身份运行”也将无法在其中某些路径上执行。<br />
+      为了解决此问题，请以管理员身份打开命令提示符，然后复制/粘贴并执行以下命令：</li>
+    </ul>
+    <pre>
+<code>
+set _r=^%SystemRoot^%
+reg add HKLM\SOFTWARE\Classes\batfile\shell\runas\command /f /v "" /t REG_EXPAND_SZ /d "%_r%\System32\cmd.exe /C \"\"%1\" %*\""
+reg add HKLM\SOFTWARE\Classes\cmdfile\shell\runas\command /f /v "" /t REG_EXPAND_SZ /d "%_r%\System32\cmd.exe /C \"\"%1\" %*\""
+</code>
+    </pre>
+            <hr />
+            <br />
+
+            <h2 id="Debug">疑难解答</h2>
+    <p>如果首次尝试激活失败：</p>
+    <ul>
+      <li>再次运行脚本。</li>
+      <li>重新启动系统，然后重试。</li>
+      <li>检查防病毒软件是否阻止文件 <code>C:\Windows\SppExtComObjHook.dll</code></li>
+      <li>检查系统完整性，请以管理员身份打开命令提示符，并分别执行以下命令：<br />
+      仅限 Windows 8.1 和 10：<code>Dism /online /Cleanup-Image /RestoreHealth</code><br />
+      然后，对任意操作系统：<code>sfc /scannow</code></li>
+    </ul>
+    <p>如果已经安装了自动续订，但是激活开始失败，请再次运行安装（选项 <b>2</b>），或者完全卸载，然后再次运行安装。</p>
+    <p>对于Windows 7，如果你遇到 <a href="https://support.microsoft.com/en-us/help/4487266">KB4487266</a> 中所述的错误，请执行建议的修复程序。</p>
+    <p>如果你在 Windows 7 上遇到错误 <strong>0xC004F035</strong> ，则表示你的计算机无法进行 KMS 激活。有关详细信息，请参阅<a href="https://support.microsoft.com/en-us/help/942962">此处</a>和<a href="https://technet.microsoft.com/en-us/library/ff793426(v=ws.10).aspx#activation-of-windows-oem-computers">此处</a>。</p>
+    <p>如果你遇到错误 <strong>0x80040154</strong>，主要与错误配置的 Windows 10 KMS38 激活相关，重新启动系统并重新启动，或恢复为正常 KMS。</p>
+    <p>如果你遇到错误 <strong>0xC004E015</strong>，则主要与错误配置的 Office 零售到批量转换有关，请尝试重新安装系统许可证：<br /><code>cscript //Nologo %SystemRoot%\System32\slmgr.vbs /rilc</code></p>
+    <p>如果你在 Windows Server 上遇到其中一个错误，请验证系统是否已正确地从评估版本转换为零售/批量版本：<br /><strong>0xC004E016</strong> - <strong>0xC004F014</strong> - <strong>0xC004F034</strong></p>
+    <p>如果在上述提示之后激活仍然失败，你可以启用调试模式以帮助确定原因：</p>
+    <ul>
+      <li>从菜单中按 <b>5</b> 将状态更改为<strong>启用调试模式</strong> <b>[是]</b></li>
+      <li>然后，运行所需的激活选项。</li>
+      <li><strong>或</strong></li>
+      <li>使用带有激活模式开关的调试命令行开关运行脚本：<code>KMS_VL_ALL_AIO.cmd /d /m</code></li>
+      <li>等待操作完成并创建日志 Debug.log</li>
+      <li>在主页（MDL 论坛）上传或发布日志文件以供检查</li>
+    </ul>
+    <p>如果你在 Office 激活方面遇到问题，或者获得了不需要或重复的许可证（例如 Office 2016 和 2019）：</p>
+    <ul>
+      <li>从<a href="https://forums.mydigitallife.net/posts/1466365/">此处</a>下载 Office Scrubber 软件包。</li>
+      <li>要摆脱任何有冲突的许可证，请运行脚本 <strong>Uninstall_Licenses.cmd</strong>，之后必须启动任意 Office 程序来修复许可证。</li>
+      <li>你也可以尝试使用脚本 <strong>Uninstall_Keys.cmd</strong> 进行类似操作。</li>
+      <li>如果你希望完全删除 Office 和剩余的东西并开始清理：<br />
+      通常从控制面板/程序和功能中卸载 Office<br />
+      之后运行脚本 <strong>Full_Scrub.cmd</strong><br />
+      之后，安装新的 Office。</li>
+    </ul>
+    <p>最后提示，你可以按照 <a href="https://support.microsoft.com/en-us/help/2736303">KB2736303</a> 中的说明进行尝试（这可能会要求你事后修复 Office）。</p>
+            <hr />
+            <br />
+
+            <h2 id="Source">源代码</h2>
+            <br />
+            <h3 id="srcAvrf">SppExtComObjHookAvrf</h3>
+    <p>
+      <a href="https://forums.mydigitallife.net/posts/1508167/" target="_blank">https://forums.mydigitallife.net/posts/1508167/</a>
+      <br />
+      <a href="https://app.box.com/s/mztbabp2n21vvjmk57cl1puel0t088bs" target="_blank">https://app.box.com/s/mztbabp2n21vvjmk57cl1puel0t088bs</a>
+    </p>
+    <h4 id="visual-studio">Visual Studio：</h4>
+    <p>VS 2017（或 2019）的启动快捷方式开发人员命令提示符<br />
+    执行：<br />
+    <code>MSBuild SppExtComObjHook.sln /p:configuration="Release" /p:platform="Win32"</code><br />
+    <code>MSBuild SppExtComObjHook.sln /p:configuration="Release" /p:platform="x64"</code></p>
+    <h4 id="mingw-gcc">MinGW GCC：</h4>
+    <p>下载 mingw-w64<br />
+    <a href="https://sourceforge.net/projects/mingw-w64/files/i686-8.1.0-release-win32-sjlj-rt_v6-rev0.7z">Windows x86</a><br />
+    <a href="https://sourceforge.net/projects/mingw-w64/files/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0.7z">Windows x64</a><br />
+    两者都可以编译 32 位和 64 位的二进制文件<br />
+    在 mingw32 或 mingw64 文件夹中提取并放置在 SppExtComObjHook 文件夹<br />
+    运行脚本 <code>_compile.cmd</code></p>
+    <p>______________________________</p>
+
+            <h3 id="srcDebg">SppExtComObjPatcher</h3>
+    <h4 id="visual-studio-1">Visual Studio：</h4>
+    <p>
+      <a href="https://forums.mydigitallife.net/posts/1457558/" target="_blank">https://forums.mydigitallife.net/posts/1457558/</a>
+      <br />
+      <a href="https://app.box.com/s/mztbabp2n21vvjmk57cl1puel0t088bs" target="_blank">https://app.box.com/s/mztbabp2n21vvjmk57cl1puel0t088bs</a>
+    </p>
+    <h4 id="mingw-gcc-1">MinGW GCC：</h4>
+    <p>
+      <a href="https://forums.mydigitallife.net/posts/1462101/" target="_blank">https://forums.mydigitallife.net/posts/1462101/</a>
+    </p>
+            <hr />
+            <br />
+
+            <h2 id="Credits">贡献者</h2>
+    <p>
+      <a href="https://forums.mydigitallife.net/posts/1508167/" target="_blank">namazso</a> - SppExtComObjHook、IFEO AVrf 定制提供者。<br />
+      <a href="https://forums.mydigitallife.net/posts/862774" target="_blank">qad</a> - SppExtComObjPatcher、IFEO 调试程序。<br />
+      <a href="https://forums.mydigitallife.net/posts/1448556/" target="_blank">Mouri_Naruto</a> - SppExtComObjPatcher-DLL<br />
+      <a href="https://forums.mydigitallife.net/posts/1462101/" target="_blank">os51</a> - 将 SppExtComObjPatcher 移植到 MinGW GCC，Retail/MAK 检查示例。<br />
+      <a href="https://forums.mydigitallife.net/posts/309737/" target="_blank">MasterDisaster</a> - 原始脚本，WMI 方式。<br />
+      <a href="https://forums.mydigitallife.net/members/1108726/" target="_blank">Windows_Addict</a> - 功能建议、想法、测试并共同增强。<br />
+      <a href="https://github.com/AveYo/Compressed2TXT" target="_blank">AveYo</a> - Compressed2TXT ascii 编码器。<br />
+      <a href="https://stackoverflow.com/a/10407642" target="_blank">dbenham、jeb</a> - 在批处理脚本中为文本添加颜色。<br />
+      <a href="https://stackoverflow.com/a/13351373" target="_blank">dbenham</a> - 设置与窗口高度无关的缓冲区高度。<br />
+      <a href="https://forums.mydigitallife.net/threads/74769/" target="_blank">hearywarlot</a> - 以管理员身份自动提权。<br />
+      <a href="https://forums.mydigitallife.net/posts/1296482/" target="_blank">qewpal</a> - KMS-VL-ALL 脚本。<br />
+      <a href="https://forums.mydigitallife.net/members/846864/" target="_blank">NormieLyfe</a> - GVLK 分类、Office 审核帮助。<br />
+      <a href="https://forums.mydigitallife.net/members/120394/" target="_blank">rpo</a>、<a href="https://forums.mydigitallife.net/members/2574/" target="_blank">mxman2k</a>、<a href="https://forums.mydigitallife.net/members/58504/" target="_blank">BAU</a>、<a href="https://forums.mydigitallife.net/members/presto1234.647219/" target="_blank">presto1234</a> - 脚本建议。<br />
+      <a href="https://forums.mydigitallife.net/members/80361/" target="_blank">Nucleus</a>、<a href="https://forums.mydigitallife.net/members/104688/" target="_blank">Enthousiast</a>、<a href="https://forums.mydigitallife.net/members/293479/" target="_blank">s1ave77</a>、<a href="https://forums.mydigitallife.net/members/325887/" target="_blank">l33tisw00t</a>、<a href="https://forums.mydigitallife.net/members/77147/" target="_blank">LostED</a>、<a href="https://forums.mydigitallife.net/members/1023044/" target="_blank">Sajjo</a> 和 MDL 社区的兴趣、反馈和帮助。<br />
+	  <a href="https://forums.mydigitallife.net/members/690532/" target="_blank">正义羊</a> - 为 KMS-VL-ALL 脚本进行简体中文本地化。</p>
+    <p>
+      <a href="https://forums.mydigitallife.net/posts/1343297/" target="_blank">abbodi1406</a> - KMS_VL_ALL author</p>
+
+            <h2 id="acknow">致谢</h2>
+    <p>
+      <a href="https://forums.mydigitallife.net/forums/51/" target="_blank">MDL 论坛</a> - 最新和当前模拟器的主页。<br />
+      <a href="https://forums.mydigitallife.net/posts/838505" target="_blank">mikmik38</a> - 首个 KMSv5 和 KMSv6 互转源代码。<br />
+      <a href="https://forums.mydigitallife.net/threads/41010/" target="_blank">CODYQX4</a> - 易于使用的 KMS 模拟器源代码。<br />
+      <a href="https://forums.mydigitallife.net/threads/50234/" target="_blank">Hotbird64</a> - 资源丰富的 vlmcsd 工具和 KMS 模拟器源代码开发。<br />
+      <a href="https://forums.mydigitallife.net/threads/50949/" target="_blank">cynecx</a> - SECO 注入器分支，SppExtComObj KMS 功能。<br />
+      <a href="https://forums.mydigitallife.net/posts/856978" target="_blank">deagles</a> - SppExtComObjHook 注入器。<br />
+      <a href="https://forums.mydigitallife.net/posts/839363" target="_blank">deagles</a> - KMSServerService。<br />
+      <a href="https://forums.mydigitallife.net/posts/1475544/" target="_blank">ColdZero</a> - CZ VM 系统。<br />
+      <a href="https://forums.mydigitallife.net/posts/1476097/" target="_blank">ColdZero</a> - KMS ePID 生成程序。<br />
+      <a href="https://forums.mydigitallife.net/posts/838023" target="_blank">kelorgo</a>、<a href="http://forums.mydigitallife.net/posts/838114" target="_blank">bedrock</a> - TAP 适配器的 TunMirror 分支。<br />
+      <a href="https://forums.mydigitallife.net/posts/1259604/" target="_blank">mishamosherg</a> - WinDivert FakeClient 分支。<br />
+      <a href="https://forums.mydigitallife.net/posts/860489" target="_blank">Duser</a> - KMS 模拟器分叉。<br />
+      <a href="https://forums.mydigitallife.net/threads/67038/" target="_blank">Boops</a> - Tool Ghost KMS（TGK）。<br />
+      ZWT、nosferati87、crony12、FreeStyler、Phazor - KMS 模拟器开发。</p>
+        </div>
+    </main>
+
+    <nav id="nav">
+        <div class="innertube">
+            <a href="#Overview">概述</a><br />
+            <a href="#AIO">多合一 vs. 传统版</a><br />
+            <a href="#How">它如何运行？</a><br />
+            <a href="#Supported">支持的产品</a><br />
+            <a href="#OfficeR2V">Office 零售版本转批量版本</a><br />
+            <a href="#Using">使用方式</a><br /><br />
+            <a href="#Modes">激活模式</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ModesAut">自动续期</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ModesMan">手动</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ModesExt">外部</a><br /><br />
+            <a href="#OptConf">配置设置选项</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ConfDbg">调试模式</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ConfAct">激活选择</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ConfC2R">Office C2R-R2V</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#ConfW10">KMS38 Win10</a><br /><br />
+            <a href="#OptMisc">其他设置选项</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#MiscChk">激活状态</a><br />
+            &nbsp;&nbsp;&nbsp;<a href="#MiscOEM">$OEM$ 文件夹</a><br /><br />
+            <a href="#OptKMS">高级 KMS 选项</a><br />
+            <a href="#Switch">命令行开关</a><br />
+            <a href="#Debug">疑难解答</a><br /><br />
+            <a href="#Source">源代码</a><br />
+            <a href="#Credits">贡献者</a><br />
+        </div>
+    </nav>
+  </body>
+</html>
