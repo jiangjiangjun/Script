@@ -1,0 +1,17 @@
+COMTool ：
+https://github.com/Neutree/COMTool
+
+Bittly
+Bittly 是一个集指令调制，指令文档，指令自动化测试，终端模拟，以及上位机面板于一体的一体化协作平台。支持串口，网络，蓝牙多种通讯方式以及HTTP，MQTT，Modbus等多种通讯协议。通过一次指令配置，即可随时使用调试，测试，绑定以及文档生成等操作。
+
+https://bittly.sigechen.com/
+
+
+VOFA+
+插件驱动的高自由度上位机
+https://www.vofa.plus/
+
+
+瑞士军刀
+一款基于qt开发的调试工具！一把开源跨平台的瑞士军刀！
+https://qsaker.gitee.io/qsak/
